@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2016, Karl Bennett
+  ~  * Licensed under the BSD 3-Clause license.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+    </parent>
+
+    <groupId>org.webjars</groupId>
+
+    <artifactId>jshamcrest</artifactId>
+
+    <version>0.7.0-SNAPSHOT</version>
+
+    <name>${project.artifactId}</name>
+
+    <packaging>jar</packaging>
+
+    <description>WebJar for jshamcrest</description>
+
+    <url>http://webjars.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- The built JS script for this library is contained within this project instead of being downloaded during -->
+        <!-- the build process. This is because the release ZIP only contains the prebuilt source and the hosted built -->
+        <!-- JS is not versioned (http://danielmartins.ninja/jshamcrest/jshamcrest.js). -->
+        <requirejs>{ "paths": { "jshamcrest": "jshamcrest" } }</requirejs>
+    </properties>
+
+    <developers>
+        <developer>
+            <id>karlbennett</id>
+            <name>Karl Bennett</name>
+            <email>karl.bennett.smt@gmail.com</email>
+            <organization>shiver-me-timbers</organization>
+            <organizationUrl>https://github.com/shiver-me-timbers</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>BSD 3-Clause License</name>
+            <url>http://opensource.org/licenses/BSD-3-Clause</url>
+            <distribution>https://github.com/danielfm/jshamcrest</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>http://github.com/webjars/${project.artifactId}</url>
+        <connection>scm:git:https://github.com/webjars/${project.artifactId}.git</connection>
+        <developerConnection>scm:git:https://github.com/webjars/${project.artifactId}.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.6</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>sonatype-nexus-staging</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
