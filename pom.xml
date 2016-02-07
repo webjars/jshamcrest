@@ -33,7 +33,13 @@
         <!-- The built JS script for this library is contained within this project instead of being downloaded during -->
         <!-- the build process. This is because the release ZIP only contains the prebuilt source and the hosted built -->
         <!-- JS is not versioned (http://danielmartins.ninja/jshamcrest/jshamcrest.js). -->
-        <requirejs>{ "paths": { "jshamcrest": "jshamcrest" } }</requirejs>
+        <requirejs>
+            {
+              "paths": {
+                "jshamcrest": "jshamcrest"
+              }
+            }
+        </requirejs>
     </properties>
 
     <developers>
