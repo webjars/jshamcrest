@@ -30,9 +30,15 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- The built JS script for this library is contained within this project instead of being downloaded during -->
-        <!-- the build process. This is because the release ZIP only contains the prebuilt source and the hosted built -->
-        <!-- JS is not versioned (http://danielmartins.ninja/jshamcrest/jshamcrest.js). -->
+        <upstream.version>0.7.0</upstream.version>
+        <upstream.name>${project.artifactId}-${upstream.version}</upstream.name>
+        <upstream.url>https://github.com/danielfm/jshamcrest/archive/${upstream.version}.tar.gz</upstream.url>
+        <download.file>${project.build.directory}/${upstream.name}.tar.gz</download.file>
+        <tar.file>${project.build.directory}/${upstream.name}.tar</tar.file>
+        <extract.dir>${project.build.directory}/${upstream.name}</extract.dir>
+        <built.file>${project.build.directory}/${upstream.name}/build/${upstream.name}.js</built.file>
+        <dest.dir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${project.version}</dest.dir>
+        <dest.file>${dest.dir}/${project.artifactId}.js</dest.file>
         <requirejs>
             {
               "paths": {
@@ -69,6 +75,36 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="download archive" />
+                                <get src="${upstream.url}" dest="${download.file}" />
+                                <echo message="gunzip archive" />
+                                <gunzip src="${download.file}" />
+                                <echo message="untar archive" />
+                                <untar src="${tar.file}" dest="${project.build.directory}" />
+                                <echo message="building project" />
+                                <!-- Fabric must be installed for this build: http://www.fabfile.org/installing.html -->
+                                <exec executable="fab" failonerror="true" dir="${extract.dir}">
+                                    <arg value="build" />
+                                </exec>
+                                <echo message="moving resources" />
+                                <copy file="${built.file}" tofile="${dest.file}" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
